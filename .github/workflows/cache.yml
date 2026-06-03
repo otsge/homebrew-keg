@@ -1,0 +1,72 @@
+name: Cache
+
+on:
+  push:
+    branches:
+      - main
+      - master
+    paths:
+      - .github/workflows/cache.yml
+  workflow_dispatch:
+  schedule:
+    - cron: "0 */6 * * *" # every 6 hours
+
+env:
+  HOMEBREW_NO_REQUIRE_TAP_TRUST: 1
+  HOMEBREW_NO_ANALYTICS: 1
+
+concurrency:
+  group: cache
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash -xeuo pipefail {0}
+
+permissions:
+  contents: read
+
+jobs:
+  update:
+    strategy:
+      matrix:
+        include:
+          - os: macos-14
+            name: macos 14-arm64
+          - os: macos-15
+            name: macOS 15-arm64
+          - os: macos-15-intel
+            name: macOS 15-x86_64
+          - os: macos-26
+            name: macOS 26-arm64
+          - os: macos-26-intel
+            name: macOS 26-x86_64
+          - os: ubuntu-22.04
+            name: Linux x86_64
+            container: ghcr.io/homebrew/brew:main
+          - os: ubuntu-22.04-arm
+            name: Linux arm64
+            container: ghcr.io/homebrew/brew:main
+      fail-fast: false
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    container: ${{ matrix.container }}
+    steps:
+      - name: Set up Homebrew
+        id: set-up-homebrew
+        uses: Homebrew/actions/setup-homebrew@main
+        with:
+          core: false
+          cask: false
+
+      - name: Cache Homebrew Gems
+        id: cache
+        uses: actions/cache@main
+        with:
+          path: ${{ steps.set-up-homebrew.outputs.gems-path }}
+          key: ${{ matrix.os }}-rubygems-${{ steps.set-up-homebrew.outputs.gems-hash }}
+          restore-keys: ${{ matrix.os }}-rubygems-
+
+      - name: Install Homebrew Gems
+        id: gems
+        run: brew install-bundler-gems --groups=audit,style
