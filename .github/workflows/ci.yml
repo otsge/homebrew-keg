@@ -150,13 +150,12 @@ jobs:
         if: >
           always() &&
           contains(fromJSON('["success", "skipped"]'), steps.tap-syntax.outcome) &&
-          matrix.cask &&
-          runner.os == 'macOS'
+          matrix.cask
 
       - name: Perform search and replace in Bash
         id: audit-args
         env:
-          MATRIX_AUDIT_ARGS: ${{ join(matrix.audit_args, ' ')}}
+          MATRIX_AUDIT_ARGS: ${{ join(matrix.audit_args, ' ') }}
         run: |
           modified_audit_args="${MATRIX_AUDIT_ARGS//signing/no-signing}"
           echo "${modified_audit_args}"
@@ -174,7 +173,7 @@ jobs:
             LC_ALL=C LANG=C sed -i '' 's/return "#{notability_prefix}/"#{notability_prefix}/g' /opt/homebrew/Library/Homebrew/utils/shared_audits.rb
             LC_ALL=C LANG=C sed -i '' 's/return "#{tag} is a GitHub pre-release."/#return "#{tag} is a GitHub pre-release."/g' /opt/homebrew/Library/Homebrew/utils/shared_audits.rb
           fi
-          brew audit --cask ${{ steps.audit-args.outputs.new_audit_args }}${{ (matrix.cask && ' ') || ' --tap ' }}'${{ matrix.cask.token || matrix.tap }}'
+          brew audit --cask ${{ steps.audit-args.outputs.new_audit_args }}${{ (matrix.cask && ' otsge/keg/') || ' --tap ' }}${{ matrix.cask.token || matrix.tap }}
         timeout-minutes: 30
         if: >
           always() &&
