@@ -14,7 +14,7 @@ on:
     - cron: "0 1 * * *"
 
 env:
-  HOMEBREW_NO_REQUIRE_TAP_TRUST: 1
+  # HOMEBREW_NO_REQUIRE_TAP_TRUST: 1
   HOMEBREW_NO_ANALYTICS: 1
 
 concurrency:
