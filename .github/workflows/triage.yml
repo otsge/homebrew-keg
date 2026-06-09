@@ -3,7 +3,6 @@ name: Triage tasks
 on: pull_request_target
 
 env:
-  # HOMEBREW_NO_REQUIRE_TAP_TRUST: 1
   GH_REPO: ${{ github.repository }}
   GH_NO_UPDATE_NOTIFIER: 1
   GH_PROMPT_DISABLED: 1

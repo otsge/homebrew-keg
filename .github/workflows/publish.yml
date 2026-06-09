@@ -1,4 +1,4 @@
-name: brew pr-pull
+name: Push Pull Request Commits
 
 on:
   pull_request_target:
@@ -6,7 +6,6 @@ on:
       - labeled
 
 env:
-  # HOMEBREW_NO_REQUIRE_TAP_TRUST: 1
   HOMEBREW_DEVELOPER: 1
   HOMEBREW_NO_ANALYTICS: 1
 
