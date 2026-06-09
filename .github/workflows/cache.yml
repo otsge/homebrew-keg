@@ -12,7 +12,6 @@ on:
     - cron: "0 */6 * * *" # every 6 hours
 
 env:
-  # HOMEBREW_NO_REQUIRE_TAP_TRUST: 1
   HOMEBREW_NO_ANALYTICS: 1
 
 concurrency:
@@ -43,10 +42,10 @@ jobs:
             name: macOS 26-x86_64
           - os: ubuntu-24.04
             name: Linux x86_64
-            container: ghcr.io/homebrew/brew:main
+            container: ghcr.io/homebrew/ubuntu24.04:main
           - os: ubuntu-24.04-arm
             name: Linux arm64
-            container: ghcr.io/homebrew/brew:main
+            container: ghcr.io/homebrew/ubuntu24.04:main
       fail-fast: false
     name: ${{ matrix.name }}
     runs-on: ${{ matrix.os }}

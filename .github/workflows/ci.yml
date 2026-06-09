@@ -28,7 +28,6 @@ on:
         type: boolean
 
 env:
-  # HOMEBREW_NO_REQUIRE_TAP_TRUST: 1
   HOMEBREW_DEVELOPER: 1
   HOMEBREW_NO_ANALYTICS: 1
   HOMEBREW_NO_AUTO_UPDATE: 1
@@ -139,8 +138,10 @@ jobs:
 
       - name: Run brew test-bot --only-tap-syntax
         id: tap-syntax
-        run: brew test-bot --tap '${{ matrix.tap }}' --only-tap-syntax
         if: always() && !matrix.cask
+        run: |
+          [[ -d $(brew --repository homebrew/core) ]] && brew untap --force homebrew/core
+          brew test-bot --tap '${{ matrix.tap }}' --only-tap-syntax
 
       - name: Run brew fetch --cask ${{ matrix.cask.token }}
         id: fetch
@@ -173,7 +174,8 @@ jobs:
             LC_ALL=C LANG=C sed -i '' 's/return "#{notability_prefix}/"#{notability_prefix}/g' /opt/homebrew/Library/Homebrew/utils/shared_audits.rb
             LC_ALL=C LANG=C sed -i '' 's/return "#{tag} is a GitHub pre-release."/#return "#{tag} is a GitHub pre-release."/g' /opt/homebrew/Library/Homebrew/utils/shared_audits.rb
           fi
-          brew audit --cask ${{ steps.audit-args.outputs.new_audit_args }}${{ (matrix.cask && ' otsge/keg/') || ' --tap ' }}${{ matrix.cask.token || matrix.tap }}
+          [[ -d $(brew --repository homebrew/core) ]] && brew untap --force homebrew/core
+          brew audit --cask ${{ steps.audit-args.outputs.new_audit_args }}${{ (matrix.cask && ' $GITHUB_REPOSITORY/') || ' --tap ' }}${{ matrix.cask.token || matrix.tap }}
         timeout-minutes: 30
         if: >
           always() &&

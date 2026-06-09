@@ -10,7 +10,6 @@ on:
     - cron: "30 * * * *"
 
 env:
-  # HOMEBREW_NO_REQUIRE_TAP_TRUST: 1
   HOMEBREW_DEVELOPER: 1
   HOMEBREW_NO_ANALYTICS: 1
 
