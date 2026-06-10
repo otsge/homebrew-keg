@@ -1,12 +1,12 @@
 name: CI
 
 on:
-  push:
-    branches:
-      - main
-      - master
-    paths:
-      - 'Casks/**'
+  # push:
+  #   branches:
+  #     - main
+  #     - master
+  #   paths:
+  #     - 'Casks/**'
   pull_request:
     paths:
       - 'Casks/**'
@@ -153,16 +153,7 @@ jobs:
           contains(fromJSON('["success", "skipped"]'), steps.tap-syntax.outcome) &&
           matrix.cask
 
-      - name: Perform search and replace in Bash
-        id: audit-args
-        env:
-          MATRIX_AUDIT_ARGS: ${{ join(matrix.audit_args, ' ') }}
-        run: |
-          modified_audit_args="${MATRIX_AUDIT_ARGS//signing/no-signing}"
-          echo "${modified_audit_args}"
-          echo "new_audit_args=${modified_audit_args}" >> "${GITHUB_OUTPUT}"
-
-      - name: Run brew audit --cask${{ (matrix.cask && ' ') || ' --tap ' }}${{ matrix.cask.token || matrix.tap }}
+      - name: Run brew audit --cask${{ (matrix.cask && ' $GITHUB_REPOSITORY/') || ' --tap ' }}${{ matrix.cask.token || matrix.tap }}
         id: audit
         run: |
           if [[ ${{ runner.os }} == "macOS" && ${{ runner.arch }} == "X64" ]]
@@ -175,7 +166,7 @@ jobs:
             LC_ALL=C LANG=C sed -i '' 's/return "#{tag} is a GitHub pre-release."/#return "#{tag} is a GitHub pre-release."/g' /opt/homebrew/Library/Homebrew/utils/shared_audits.rb
           fi
           [[ -d $(brew --repository homebrew/core) ]] && brew untap --force homebrew/core
-          brew audit --cask ${{ steps.audit-args.outputs.new_audit_args }}${{ (matrix.cask && ' $GITHUB_REPOSITORY/') || ' --tap ' }}${{ matrix.cask.token || matrix.tap }}
+          brew audit --cask ${{ join(matrix.audit_args, ' ') }}${{ (matrix.cask && ' $GITHUB_REPOSITORY/') || ' --tap ' }}${{ matrix.cask.token || matrix.tap }}
         timeout-minutes: 30
         if: >
           always() &&
