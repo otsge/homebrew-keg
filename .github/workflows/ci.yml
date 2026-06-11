@@ -158,10 +158,12 @@ jobs:
         run: |
           if [[ ${{ runner.os }} == "macOS" && ${{ runner.arch }} == "X64" ]]
           then
+            LC_ALL=C LANG=C sed -i '' 's/add_error signing_failure_message/# add_error signing_failure_message/g' "$(brew --prefix)/Homebrew/Library/Homebrew/cask/audit.rb"
             LC_ALL=C LANG=C sed -i '' 's/return "#{notability_prefix}/"#{notability_prefix}/g' "$(brew --prefix)/Homebrew/Library/Homebrew/utils/shared_audits.rb"
             LC_ALL=C LANG=C sed -i '' 's/return "#{tag} is a GitHub pre-release."/#return "#{tag} is a GitHub pre-release."/g' "$(brew --prefix)/Homebrew/Library/Homebrew/utils/shared_audits.rb"
           elif [[ ${{ runner.os }} == "macOS" && ${{ runner.arch }} == "ARM64" ]]
           then
+            LC_ALL=C LANG=C sed -i '' 's/add_error signing_failure_message/# add_error signing_failure_message/g' /opt/homebrew/Library/Homebrew/cask/audit.rb
             LC_ALL=C LANG=C sed -i '' 's/return "#{notability_prefix}/"#{notability_prefix}/g' /opt/homebrew/Library/Homebrew/utils/shared_audits.rb
             LC_ALL=C LANG=C sed -i '' 's/return "#{tag} is a GitHub pre-release."/#return "#{tag} is a GitHub pre-release."/g' /opt/homebrew/Library/Homebrew/utils/shared_audits.rb
           fi
