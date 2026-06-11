@@ -12,7 +12,9 @@ on:
     - cron: "0 */6 * * *" # every 6 hours
 
 env:
+  HOMEBREW_DEVELOPER: 1
   HOMEBREW_NO_ANALYTICS: 1
+  HOMEBREW_NO_AUTO_UPDATE: 1
 
 concurrency:
   group: cache
@@ -57,6 +59,10 @@ jobs:
         with:
           core: false
           cask: false
+
+      - name: Cleanup runner
+        working-directory: ${{ runner.temp }}
+        run: brew test-bot --only-cleanup-before
 
       - name: Cache Homebrew Gems
         id: cache
