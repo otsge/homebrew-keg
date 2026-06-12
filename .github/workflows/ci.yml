@@ -1,12 +1,12 @@
 name: CI
 
 on:
-  # push:
-  #   branches:
-  #     - main
-  #     - master
-  #   paths:
-  #     - 'Casks/**'
+  push:
+    branches:
+      - main
+      - master
+    paths:
+      - 'Casks/**'
   pull_request:
     paths:
       - 'Casks/**'
@@ -65,7 +65,10 @@ jobs:
           persist-credentials: false
 
       - name: Run brew config
-        run: brew config
+        run: |
+          brew config
+          cp /Users/runner/work/homebrew-keg/homebrew-keg/.github/workflows/files/generate-cask-ci-matrix /opt/homebrew/Library/Homebrew/dev-cmd/generate-cask-ci-matrix.rb
+          cp /Users/runner/work/homebrew-keg/homebrew-keg/.github/workflows/files/generate-cask-ci-matrix_spec /opt/homebrew/Library/Homebrew/test/dev-cmd/generate-cask-ci-matrix_spec.rb
 
       - name: Generate CI matrix
         id: generate-matrix
