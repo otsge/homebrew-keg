@@ -1,5 +1,5 @@
 cask "mediadownloader@git" do
-  version "5.6.1.202606202010"
+  version "5.6.1.202606221837"
   sha256 :no_check
 
   url "https://github.com/mhogomchungu/media-downloader-git/releases/download/0.0.0/MediaDownloaderQt6.arm64.git.dmg"
