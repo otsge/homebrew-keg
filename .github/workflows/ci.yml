@@ -1,16 +1,20 @@
 name: CI
 
 on:
-  push:
-    branches:
-      - main
-      - master
-    paths:
-      - 'Casks/**'
-  pull_request:
-    paths:
-      - 'Casks/**'
-  merge_group:
+  # push:
+  #   branches:
+  #     - main
+  #     - master
+  #   paths:
+  #     - 'Casks/**'
+  # pull_request:
+  #   paths:
+  #     - 'Casks/**'
+  # merge_group:
+  workflow_run:
+    workflows: ["Triage tasks"] # Use the exact 'name' defined in your first workflow
+    types:
+      - completed
   workflow_dispatch:
     inputs:
       casks:
@@ -74,7 +78,8 @@ jobs:
         id: generate-matrix
         env:
           INPUT_CASKS: ${{ github.event.inputs.casks }}
-          PULL_REQUEST_URL: ${{ github.event.pull_request.url }}
+          PR: ${{ github.event.number }}
+        #   PULL_REQUEST_URL: ${{ github.event.pull_request.url }}
         run: |
           if [[ "${GITHUB_EVENT_NAME}" == "workflow_dispatch" ]]
           then
@@ -84,7 +89,7 @@ jobs:
           then
             brew generate-cask-ci-matrix --syntax-only
           else
-            brew generate-cask-ci-matrix --url "$PULL_REQUEST_URL"
+            brew generate-cask-ci-matrix --url "https://api.github.com/repos/otsge/homebrew-keg/pulls/$PR"
           fi
 
   test:
