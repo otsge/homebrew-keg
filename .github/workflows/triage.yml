@@ -68,6 +68,11 @@ jobs:
             - label: ci-skip-livecheck
               pr_body_content: Created with `brew bump-cask-pr`
 
+            - label: ci-skip-livecheck
+              status: added
+              path: Casks/.+
+              allow_any_match: true
+
             - label: missing description
               path: Casks/.+
               missing_content:
