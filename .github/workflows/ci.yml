@@ -11,6 +11,10 @@ on:
     paths:
       - 'Casks/**'
   merge_group:
+  # workflow_run:
+  #   workflows: ["Triage tasks"] # Use the exact 'name' defined in your first workflow
+  #   types:
+  #     - completed
   workflow_dispatch:
     inputs:
       casks:
@@ -313,5 +317,5 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.AUTOBUMP_TOKEN }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
-        run: gh pr edit "${PR_NUMBER}" --add-label "pr-pull" --repo "${GITHUB_REPOSITORY}"
+        run: gh pr edit "$PR_NUMBER" --add-label "pr-pull" --repo "$GITHUB_REPOSITORY"
         if: ${{ needs.test.result == 'success' && startsWith(github.head_ref, 'bump') && github.event_name == 'pull_request' }}
