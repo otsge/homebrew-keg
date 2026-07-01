@@ -1,16 +1,25 @@
 name: CI
 
 on:
-  push:
-    branches:
-      - main
-      - master
-    paths:
-      - 'Casks/**'
-  pull_request:
-    paths:
-      - 'Casks/**'
-  merge_group:
+  # push:
+  #   branches:
+  #     - main
+  #     - master
+  #   paths:
+  #     - 'Casks/**'
+  # pull_request:
+  #   paths:
+  #     - 'Casks/**'
+  # merge_group:
+  # workflow_run:
+  #   workflows: ["Triage tasks"] # Use the exact 'name' defined in your first workflow
+  #   types:
+  #     - completed
+  workflow_call:
+    inputs:
+      pr_number:
+        required: true
+        type: string
   workflow_dispatch:
     inputs:
       casks:
@@ -33,6 +42,7 @@ env:
   HOMEBREW_NO_AUTO_UPDATE: 1
   HOMEBREW_NO_INSTALL_FROM_API: 1
   HOMEBREW_GITHUB_API_TOKEN: ${{ github.token }}
+  PR_NUMBER: ${{ inputs.pr_number || github.event.pull_request.number }}
 
 concurrency:
   group: "${{ github.ref }}"
@@ -74,7 +84,7 @@ jobs:
         id: generate-matrix
         env:
           INPUT_CASKS: ${{ github.event.inputs.casks }}
-          PULL_REQUEST_URL: ${{ github.event.pull_request.url }}
+        #   PULL_REQUEST_URL: ${{ github.event.pull_request.url }}
         run: |
           if [[ "${GITHUB_EVENT_NAME}" == "workflow_dispatch" ]]
           then
@@ -84,7 +94,7 @@ jobs:
           then
             brew generate-cask-ci-matrix --syntax-only
           else
-            brew generate-cask-ci-matrix --url "$PULL_REQUEST_URL"
+            brew generate-cask-ci-matrix --url "https://api.github.com/repos/otsge/homebrew-keg/pulls/$PR_NUMBER"
           fi
 
   test:
@@ -312,6 +322,7 @@ jobs:
         id: label-the-pr
         env:
           GH_TOKEN: ${{ secrets.AUTOBUMP_TOKEN }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
-        run: gh pr edit "${PR_NUMBER}" --add-label "pr-pull" --repo "${GITHUB_REPOSITORY}"
-        if: ${{ needs.test.result == 'success' && startsWith(github.head_ref, 'bump') && github.event_name == 'pull_request' }}
+        #   PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: gh pr edit "$PR_NUMBER" --add-label "pr-pull" --repo "$GITHUB_REPOSITORY"
+        if: ${{ needs.test.result == 'success' && startsWith(github.head_ref, 'bump') }}
+        # if: ${{ needs.test.result == 'success' && startsWith(github.head_ref, 'bump') && github.event_name == 'pull_request' }}

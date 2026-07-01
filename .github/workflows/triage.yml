@@ -65,6 +65,9 @@ jobs:
             - label: bump-cask-pr
               pr_body_content: Created with `brew bump-cask-pr`
 
+            - label: ci-skip-livecheck
+              pr_body_content: Created with `brew bump-cask-pr`
+
             - label: missing description
               path: Casks/.+
               missing_content:
@@ -131,3 +134,14 @@ jobs:
             > [!CAUTION]
             > Failed to change base branch to `main`. Please edit your pull request manually to target the `main` branch instead of the `master` branch.
         run: gh pr comment "${PR}" --body "${BODY}" --repo "${GITHUB_REPOSITORY}"
+
+  call-ci-workflow:
+    needs: triage
+    permissions:
+      contents: read
+      issues: write
+      pull-requests: write
+      statuses: write
+    uses: ./.github/workflows/ci.yml
+    with:
+      pr_number: ${{ github.event.number }}
