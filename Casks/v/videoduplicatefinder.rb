@@ -1,7 +1,7 @@
-cask "videoduplicatefinder@4" do
+cask "videoduplicatefinder" do
   arch arm: "arm64", intel: "x64"
 
-  version "4.0-8d24b3d"
+  version "4.0-417-8d24b3d"
   sha256 :no_check
 
   url "https://github.com/0x90d/videoduplicatefinder/releases/download/4.0.x/GUI-osx-#{arch}.tar.gz"
@@ -10,18 +10,21 @@ cask "videoduplicatefinder@4" do
   homepage "https://github.com/0x90d/videoduplicatefinder"
 
   livecheck do
-    url :url
-    regex(/Last\sbuild\sbased\son\s([0-9a-f]{7})/i)
-    strategy :github_latest do |json, regex|
-      match = json["body"]&.match(regex)
-      next if match.blank?
+    url "https://api.github.com/repositories/164539637/actions/workflows/releases.yml/runs?branch=master&event=push&page=1&per_page=1&status=success"
+    regex(/([0-9a-f]{7})/i)
+    strategy :json do |json, regex|
+      json["workflow_runs"]&.map do |runs|
+        build = runs["run_number"]
+        version = runs["head_sha"]&.match(regex)
+        next if build.blank? || version.blank?
 
-      "4.0-#{match[1]}"
+        "4.0-#{build}-#{version}"
+      end
     end
   end
 
   depends_on macos: :big_sur
-  depends_on formula: "ffmpeg@8"
+  depends_on formula: "ffmpeg"
 
   app "Video Duplicate Finder.app"
 
