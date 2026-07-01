@@ -20,6 +20,7 @@ cask "videoduplicatefinder@3" do
     end
   end
 
+  conflicts_with cask: "videoduplicatefinder"
   depends_on macos: :big_sur
   depends_on formula: "ffmpeg"
 
