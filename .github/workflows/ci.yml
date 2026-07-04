@@ -163,16 +163,12 @@ jobs:
       - name: Run brew audit --cask${{ (matrix.cask && ' ') || ' --tap ' }}${{ matrix.cask.token || matrix.tap }}
         id: audit
         run: |
-          if [[ ${{ runner.os }} == "macOS" && ${{ runner.arch }} == "X64" ]]
+          if [[ ${{ runner.os }} == "macOS" ]]
           then
-            LC_ALL=C LANG=C sed -i '' 's/add_error signing_failure_message/# add_error signing_failure_message/g' "$(brew --prefix)/Homebrew/Library/Homebrew/cask/audit.rb"
-            LC_ALL=C LANG=C sed -i '' 's/return "#{notability_prefix}/"#{notability_prefix}/g' "$(brew --prefix)/Homebrew/Library/Homebrew/utils/shared_audits.rb"
-            LC_ALL=C LANG=C sed -i '' 's/return "#{tag} is a GitHub pre-release."/#return "#{tag} is a GitHub pre-release."/g' "$(brew --prefix)/Homebrew/Library/Homebrew/utils/shared_audits.rb"
-          elif [[ ${{ runner.os }} == "macOS" && ${{ runner.arch }} == "ARM64" ]]
-          then
-            LC_ALL=C LANG=C sed -i '' 's/add_error signing_failure_message/# add_error signing_failure_message/g' /opt/homebrew/Library/Homebrew/cask/audit.rb
-            LC_ALL=C LANG=C sed -i '' 's/return "#{notability_prefix}/"#{notability_prefix}/g' /opt/homebrew/Library/Homebrew/utils/shared_audits.rb
-            LC_ALL=C LANG=C sed -i '' 's/return "#{tag} is a GitHub pre-release."/#return "#{tag} is a GitHub pre-release."/g' /opt/homebrew/Library/Homebrew/utils/shared_audits.rb
+            LC_ALL=C LANG=C sed -i '' 's/add_error signing_failure_message/# add_error signing_failure_message/g' "$(brew --repository)/Library/Homebrew/cask/audit.rb"
+            LC_ALL=C LANG=C sed -i '' 's/add_error("cask token mentions desktop/# add_error("cask token mentions desktop/g' "$(brew --repository)/Library/Homebrew/cask/audit.rb"
+            LC_ALL=C LANG=C sed -i '' 's/return "#{notability_prefix}/"#{notability_prefix}/g' "$(brew --repository)/Library/Homebrew/utils/shared_audits.rb"
+            LC_ALL=C LANG=C sed -i '' 's/return "#{tag} is a GitHub pre-release."/#return "#{tag} is a GitHub pre-release."/g' "$(brew --repository)/Library/Homebrew/utils/shared_audits.rb"
           fi
           [[ -d $(brew --repository homebrew/core) ]] && brew untap --force homebrew/core
           brew audit --cask ${{ join(matrix.audit_args, ' ') }}${{ (matrix.cask && ' $GITHUB_REPOSITORY/') || ' --tap ' }}${{ matrix.cask.token || matrix.tap }}

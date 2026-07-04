@@ -1,4 +1,4 @@
-cask "radicle" do
+cask "radicle-desktop" do
   version "0.12.0"
   sha256 :no_check
 
