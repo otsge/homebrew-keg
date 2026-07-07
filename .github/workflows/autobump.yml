@@ -45,6 +45,7 @@ jobs:
           CASKS: ${{ inputs.casks }}
         run: |
           LC_ALL=C LANG=C sed -i '' 's/add_error("cask token mentions desktop/# add_error("cask token mentions desktop/g' "$(brew --repository)/Library/Homebrew/cask/audit.rb"
+          LC_ALL=C LANG=C sed -i '' 's/return unless core_formula_names.include?(cask.token)/return/g' "$(brew --repository)/Library/Homebrew/cask/audit.rb"
           LC_ALL=C LANG=C sed -i '' 's/return "#{tag} is a GitHub pre-release."/#return "#{tag} is a GitHub pre-release."/g' "$(brew --repository)/Library/Homebrew/utils/shared_audits.rb"
           BREW_BUMP=(brew bump --debug --no-fork --open-pr --casks --full-name)
           if [[ -n "${CASKS-}" ]]; then
