@@ -1,5 +1,5 @@
 cask "parsec-startup" do
-  version "150-103a"
+  version "150-104a"
   sha256 :no_check
 
   url "https://builds.parsecgaming.com/package/parsec-macos-startup.pkg",
