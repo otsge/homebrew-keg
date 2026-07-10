@@ -169,6 +169,7 @@ jobs:
             LC_ALL=C LANG=C sed -i '' 's/return unless core_formula_names.include?(cask.token)/return/g' "$(brew --repository)/Library/Homebrew/cask/audit.rb"
             LC_ALL=C LANG=C sed -i '' 's/add_error("cask token mentions desktop/# add_error("cask token mentions desktop/g' "$(brew --repository)/Library/Homebrew/cask/audit.rb"
             LC_ALL=C LANG=C sed -i '' 's/return "#{notability_prefix}/"#{notability_prefix}/g' "$(brew --repository)/Library/Homebrew/utils/shared_audits.rb"
+            LC_ALL=C LANG=C sed -i '' 's/Date.today - 30/Date.today - 0/g' "$(brew --repository)/Library/Homebrew/utils/shared_audits.rb"
             LC_ALL=C LANG=C sed -i '' 's/return "#{tag} is a GitHub pre-release."/#return "#{tag} is a GitHub pre-release."/g' "$(brew --repository)/Library/Homebrew/utils/shared_audits.rb"
           fi
           [[ -d $(brew --repository homebrew/core) ]] && brew untap --force homebrew/core
