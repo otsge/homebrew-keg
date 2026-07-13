@@ -1,7 +1,7 @@
 cask "deskflow@dev" do
   arch arm: "arm64", intel: "x86_64"
 
-  version "1.26.0.309"
+  version "1.26.0.312"
   sha256 :no_check
 
   on_arm do
