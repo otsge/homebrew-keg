@@ -22,7 +22,7 @@ cask "parsec-startup" do
 
   pkg "parsec-macos-startup.pkg"
 
-  postflight do
+  postflight_steps do
     set_ownership ["/Users/Shared/.parsec", "/Users/Shared/.parsec-persistent"]
   end
 
