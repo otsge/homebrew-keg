@@ -312,8 +312,9 @@ jobs:
 
       - name: Label the Pull Request
         id: label-the-pr
+        if: ${{ needs.test.result == 'success' && github.event_name == 'pull_request' }}
         env:
           GH_TOKEN: ${{ secrets.AUTOBUMP_TOKEN }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
         run: gh pr edit "$PR_NUMBER" --add-label "pr-pull" --repo "$GITHUB_REPOSITORY"
-        if: ${{ needs.test.result == 'success' && startsWith(github.head_ref, 'bump') && github.event_name == 'pull_request' }}
+        # if: ${{ needs.test.result == 'success' && startsWith(github.head_ref, 'bump') && github.event_name == 'pull_request' }}
