@@ -1,9 +1,9 @@
 cask "fluxdown" do
   arch arm: "arm64", intel: "x64"
 
-  version "0.3.0"
-  sha256 arm:   "5b3d176915ad4017c17afaf2311238698e5d36c2ba5635ebcc0a7cd4736e3129",
-         intel: "5d76e02458cdc0279ee33c69e51d859c51ba4b02864d1a97ef763a2ac509b04e"
+  version "0.3.1"
+  sha256 arm:   "69c2be0af231f9ab4574432ee555ba93b0e8d8eaae784e0597e4e431eaccfcc4",
+         intel: "35eae808bb75110a976b1153f7d54a16783a22adfa3ce28f8654abf5ef757e5b"
 
   url "https://github.com/zerx-lab/FluxDown/releases/download/v#{version}/FluxDown-#{version}-macos-#{arch}.dmg",
       verified: "github.com/zerx-lab/FluxDown/"
