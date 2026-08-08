@@ -1,7 +1,7 @@
 cask "videoduplicatefinder" do
   arch arm: "arm64", intel: "x64"
 
-  version "4.1-445-a7019a7"
+  version "4.1-446-5616851"
   sha256 :no_check
 
   url "https://github.com/0x90d/videoduplicatefinder/releases/download/4.1.x/GUI-osx-#{arch}.tar.gz"
