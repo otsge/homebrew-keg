@@ -1,5 +1,5 @@
 cask "radicle-desktop" do
-  version "0.14.0"
+  version "0.15.0"
   sha256 :no_check
 
   url "https://files.radicle.dev/releases/radicle-desktop/latest/radicle-desktop-aarch64.dmg"
