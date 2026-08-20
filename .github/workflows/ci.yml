@@ -1,12 +1,12 @@
 name: CI
 
 on:
-  push:
-    branches:
-      - main
-      - master
-    paths:
-      - 'Casks/**'
+  # push:
+  #   branches:
+  #     - main
+  #     - master
+  #   paths:
+  #     - 'Casks/**'
   pull_request:
     paths:
       - 'Casks/**'
