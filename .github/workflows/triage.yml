@@ -73,6 +73,14 @@ jobs:
               path: Casks/.+
               allow_any_match: true
 
+            - label: CI-no-bottles
+              pr_body_content: Created with `brew bump-cask-pr`
+
+            - label: CI-no-bottles
+              status: added
+              path: Casks/.+
+              allow_any_match: true
+
             - label: missing description
               path: Casks/.+
               missing_content:
