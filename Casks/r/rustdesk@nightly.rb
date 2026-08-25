@@ -6,11 +6,11 @@ cask "rustdesk@nightly" do
     version "1.4.9,1787622593000"
   end
   on_intel do
-    version "1.4.9,1787620518000"
+    version "1.4.9,1787659424000"
   end
   on_macos do
     sha256 arm:   "688abc0d6f89113309a931f4324e267e5118144facff0891c4505469fd792676",
-           intel: "d7c387d170dd4d48dd0479a37626e3bcaee6877a71be42f135f81571f80795b7"
+           intel: "47a0aaee26e81d306121d91bd988374acb9191bd0e6826a0bfec8f7a4aea0214"
 
     depends_on macos: :monterey
 
@@ -28,7 +28,7 @@ cask "rustdesk@nightly" do
   end
   on_linux do
     sha256 arm64_linux:  "5819b75508a875467d42ea38149594f504d2b97ab36ef86d2fa0c9d4669caeae",
-           x86_64_linux: "6497d47a5e405dffbc12b76ef379381bf664a8f49241103718d96f4ec7928077"
+           x86_64_linux: "1483a8bdadd103637f3bfc1790217a7cb56494cac39590315c81e0905db2d8ae"
 
     app_image "rustdesk-#{version.csv.first}-#{arch}.AppImage",
               target: "RustDeskNightly.AppImage"
