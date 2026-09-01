@@ -27,9 +27,9 @@ cask "deskflow" do
 
   app "Deskflow.app"
 
-  postflight do
-    system_command "xattr",
-                   args: ["-c", "#{appdir}/Deskflow.app"]
+  postflight_steps do
+    run "xattr",
+        args: ["-c", "{{appdir}}/Deskflow.app"]
   end
 
   zap trash: [

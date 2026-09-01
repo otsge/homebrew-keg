@@ -22,9 +22,9 @@ cask "rar" do
   artifact "rar/default.sfx", target: "#{HOMEBREW_PREFIX}/lib/default.sfx"
   artifact "rar/rarfiles.lst", target: "#{HOMEBREW_PREFIX}/etc/rarfiles.lst"
 
-  postflight do
-    system_command "xattr",
-                   args: ["-cr", caskroom_path.to_s]
+  postflight_steps do
+    run "xattr",
+        args: ["-cr", "{{caskroom_path}}"]
   end
 
   # No zap stanza required

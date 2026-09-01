@@ -29,9 +29,9 @@ cask "videoduplicatefinder" do
 
   app "Video Duplicate Finder.app"
 
-  postflight do
-    system_command "xattr",
-                   args: ["-cr", "#{appdir}/Video Duplicate Finder.app"]
+  postflight_steps do
+    run "xattr",
+        args: ["-cr", "{{appdir}}/Video Duplicate Finder.app"]
   end
 
   # zap trash: [

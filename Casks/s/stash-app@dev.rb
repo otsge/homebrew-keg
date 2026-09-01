@@ -2,8 +2,7 @@ cask "stash-app@dev" do
   version "0.31.1-161-ge27f6816"
   sha256 :no_check
 
-  url "https://github.com/stashapp/stash/releases/download/latest_develop/Stash.app.zip",
-      verified: "github.com/stashapp/stash/"
+  url "https://github.com/stashapp/stash/releases/download/latest_develop/Stash.app.zip"
   name "Stash"
   desc "Organizer for your porn, written in Go"
   homepage "https://stashapp.cc/"

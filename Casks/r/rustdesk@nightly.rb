@@ -3,14 +3,14 @@ cask "rustdesk@nightly" do
   url_end = on_system_conditional macos: ".dmg", linux: ".AppImage"
 
   on_arm do
-    version "1.4.9,1788138622000"
+    version "1.4.9,1788223915000"
   end
   on_intel do
-    version "1.4.9,1788139052000"
+    version "1.4.9,1788224484000"
   end
   on_macos do
-    sha256 arm:   "9bb4f2a2a77b69ef702e721471d57311915c1a3addfc762c450000f7890f1bab",
-           intel: "b74bfbd38d7955e3b07712cba527314ff59f3de4c168e2cf68febf1e163384bd"
+    sha256 arm:   "8faf31e27734b043947015565826ffe1f7be63c7f6903cf21188e034ee12bf45",
+           intel: "2a19cc11fcbd9f4b7b3ba87fcf3c8b4a9f7ff7713f635a57913a962a38254ce9"
 
     depends_on macos: :monterey
 

@@ -19,9 +19,9 @@ cask "radicle-desktop" do
 
   app "Radicle.app"
 
-  postflight do
-    system_command "xattr",
-                   args: ["-c", "#{appdir}/Radicle.app"]
+  postflight_steps do
+    run "xattr",
+        args: ["-c", "{{appdir}}/Radicle.app"]
   end
 
   uninstall quit: "dev.radicle.desktop"

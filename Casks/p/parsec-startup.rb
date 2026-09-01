@@ -2,8 +2,7 @@ cask "parsec-startup" do
   version "150-104a"
   sha256 :no_check
 
-  url "https://builds.parsecgaming.com/package/parsec-macos-startup.pkg",
-      verified: "builds.parsecgaming.com/package/"
+  url "https://builds.parsecgaming.com/package/parsec-macos-startup.pkg"
   name "Parsec"
   desc "Remote desktop (version with login screen access)"
   homepage "https://parsec.app/"
