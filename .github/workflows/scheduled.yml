@@ -14,11 +14,16 @@ on:
     - cron: "0 1 * * *"
 
 env:
+  HOMEBREW_DEVELOPER: 1
   HOMEBREW_NO_ANALYTICS: 1
 
 concurrency:
   group: scheduled
   cancel-in-progress: true
+
+defaults:
+  run:
+    shell: /bin/bash -xeuo pipefail {0}
 
 jobs:
   create_matrix:
@@ -41,6 +46,8 @@ jobs:
       - name: Generate matrix
         id: matrix
         run: |
+          export HOMEBREW_NO_INSTALL_FROM_API=1
+          brew untap --force homebrew/cask
           casks="$(find "$(brew --repo "${TAP}")/Casks" -type f | shuf -n "${TEST_COUNT}" | xargs -I{} basename {} .rb)"
           # shellcheck disable=SC2086
           json="$(
@@ -55,6 +62,7 @@ jobs:
     name: "Online check (${{ matrix.os }}): ${{ matrix.cask }}"
     env:
       HOMEBREW_DEVELOPER: 1
+      HOMEBREW_NO_INSTALL_FROM_API: 1
       CASK: ${{ matrix.cask }}
       HOMEBREW_GITHUB_API_TOKEN: ${{ github.token }}
       GH_TOKEN: ${{ github.token }}
