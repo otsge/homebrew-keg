@@ -2,7 +2,7 @@
 #:`brew fuse-t-links-add`
 #:    Add the necessary symlinks to use FUSE-T as FUSE (requires sudo)
 
-sudo bash <<EOF
+bash <<EOF
 
 if [ ! -e "/usr/local/lib/libfuse.dylib" ]; then
   ln -sf $(realpath /usr/local/lib/libfuse-t.dylib | sed 's#/usr/local/lib/##g') /usr/local/lib/libfuse.dylib

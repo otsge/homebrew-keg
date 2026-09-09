@@ -17,13 +17,12 @@ cask "fuse-t" do
   pkg "fuse-t-macos-installer-#{version}.pkg"
 
   postflight_steps do
-    run "{{HOMEBREW_PREFIX}}/bin/brew",
-        args: ["fuse-t-links-add"]
     set_ownership ["/usr/local/include", "/usr/local/lib"]
+    run "bin/brew", args: ["fuse-t-links-add"], base: :homebrew_prefix
   end
 
   uninstall script:  {
-              executable: "{{HOMEBREW_PREFIX}}/bin/brew",
+              executable: "#{HOMEBREW_PREFIX}/bin/brew",
               args:       ["fuse-t-links-del"],
               input:      ["Y"],
             },
