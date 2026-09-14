@@ -3,14 +3,14 @@ cask "rustdesk@nightly" do
   url_end = on_system_conditional macos: ".dmg", linux: ".AppImage"
 
   on_arm do
-    version "1.5.0,1789261035000"
+    version "1.5.0,1789349232000"
   end
   on_intel do
-    version "1.5.0,1789263107000"
+    version "1.5.0,1789351515000"
   end
   on_macos do
-    sha256 arm:   "67565c5731c10c72aa09b961a5f17c95d8eac1a3527ff929052634da1a1b7cc7",
-           intel: "f07ffd63fb6b6fcbbe33b759e68aeb7241380fa30169a9b67191940b2eb62795"
+    sha256 arm:   "52a29fc5ea56bb1b6cbb330701b47bb2d13a5c567671825d439b6e16438f1050",
+           intel: "2897397947c7ae2af2c814897822ec5cd4cac2764155a95280dff1a0f81b1757"
 
     depends_on macos: :monterey
 
@@ -27,8 +27,8 @@ cask "rustdesk@nightly" do
     ]
   end
   on_linux do
-    sha256 arm64_linux:  "08daea3bd8e31d501f9fa6c749077153b23fb761f6505ab23a9c169eb1b527cc",
-           x86_64_linux: "c339fd0df341a44e32bfee0797e1a573f03f588992e41b2a4f57cb895eb155c9"
+    sha256 arm64_linux:  "228b84419337f61b4bd01deeccd424969f1276d7131918de302b71c8096151d8",
+           x86_64_linux: "cc031475fe74b42ccce69da6a15f632dc3bcdb3e1b2c7076f0cb125dbce012dd"
 
     app_image "rustdesk-#{version.csv.first}-#{arch}.AppImage",
               target: "RustDeskNightly.AppImage"
