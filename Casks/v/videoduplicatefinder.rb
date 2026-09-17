@@ -25,7 +25,7 @@ cask "videoduplicatefinder" do
 
   conflicts_with cask: "videoduplicatefinder@3"
   depends_on formula: "ffmpeg"
-  depends_on macos: :big_sur
+  depends_on :macos
 
   app "Video Duplicate Finder.app"
 

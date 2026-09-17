@@ -8,7 +8,7 @@ cask "stash-app" do
   homepage "https://stashapp.cc/"
 
   conflicts_with cask: "stash-app@dev"
-  depends_on macos: :big_sur
+  depends_on :macos
 
   app "Stash.app"
 
