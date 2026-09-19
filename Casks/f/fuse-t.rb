@@ -17,7 +17,7 @@ cask "fuse-t" do
   pkg "fuse-t-macos-installer-#{version}.pkg"
 
   postflight_steps do
-    set_ownership ["/usr/local/include", "/usr/local/lib"]
+    set_ownership ["/usr/local/include", "/usr/local/lib"], recursive: true
     run "bin/brew", args: ["fuse-t-links-add"], base: :homebrew_prefix
   end
 

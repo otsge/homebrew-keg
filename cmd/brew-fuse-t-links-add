@@ -17,6 +17,10 @@ if [ ! -e "/usr/local/include/fuse" ]; then
   ln -sf "/Library/Application Support/fuse-t/include/fuse" /usr/local/include/fuse
 fi
 
+if [ -L "/usr/local/include/fuse/fuse" ]; then
+  unlink /usr/local/include/fuse/fuse
+fi
+
 if [ -L "/usr/local/include/fuse3/fuse3" ]; then
   unlink /usr/local/include/fuse3/fuse3
 fi
