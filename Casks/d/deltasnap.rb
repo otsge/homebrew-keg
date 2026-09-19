@@ -1,6 +1,6 @@
 cask "deltasnap" do
-  version "1.0.1"
-  sha256 "495214738d63800d8b0d788efdcfb7d9e848e8110cc515e5fb5df80984f08824"
+  version "1.0.2"
+  sha256 "1149e91d9fd14e8e23c7d5342976e6ea6b2be9f1f2fda5a9e1746fb9551fa8b8"
 
   url "https://scaleninja.com/download/deltasnap/releases/DeltaSnap-#{version}.zip"
   name "DeltaSnap"
