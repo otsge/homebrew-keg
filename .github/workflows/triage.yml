@@ -73,6 +73,14 @@ jobs:
               path: Casks/.+
               allow_any_match: true
 
+            - label: ci-skip-repository
+              pr_body_content: Created with `brew bump-cask-pr`
+
+            - label: ci-skip-repository
+              status: added
+              path: Casks/.+
+              allow_any_match: true
+
             - label: CI-no-bottles
               pr_body_content: Created with `brew bump-cask-pr`
 

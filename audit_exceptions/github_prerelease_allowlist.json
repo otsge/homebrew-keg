@@ -1,0 +1,6 @@
+{
+  "deskflow@dev": "any",
+  "mediadownloader@git": "any",
+  "rustdesk@nightly": "any",
+  "stash-app@dev": "all"
+}
