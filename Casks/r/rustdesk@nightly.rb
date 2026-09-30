@@ -2,16 +2,13 @@ cask "rustdesk@nightly" do
   arch arm: "aarch64", intel: "x86_64"
   url_end = on_system_conditional macos: ".dmg", linux: ".AppImage"
 
-  on_arm do
-    version "1.5.0,1790643713000"
-  end
-  on_intel do
-    version "1.5.0,1790645121000"
-  end
-  on_macos do
-    sha256 arm:   "3c574aeddd345db4b87671b12a8f2207840fd7afadc9807c734001dc9f6a2bc1",
-           intel: "8b510f2fceb21c17877d62be1449bf9586e57406bde101540d759422f9549a6e"
+  version "1.5.0,1790645121000"
+  sha256 arm:          "3c574aeddd345db4b87671b12a8f2207840fd7afadc9807c734001dc9f6a2bc1",
+         intel:        "8b510f2fceb21c17877d62be1449bf9586e57406bde101540d759422f9549a6e",
+         arm64_linux:  "d00231e2b84bb5835de9e9f50185b8af5ab1c42e84b7313a478bfc2754b80239",
+         x86_64_linux: "c16dc87215856022b1c5e731b91d4404b961cd78bc1269ef8c7fa3698c369253"
 
+  on_macos do
     depends_on macos: :monterey
 
     app "RustDesk.app"
@@ -27,9 +24,6 @@ cask "rustdesk@nightly" do
     ]
   end
   on_linux do
-    sha256 arm64_linux:  "d00231e2b84bb5835de9e9f50185b8af5ab1c42e84b7313a478bfc2754b80239",
-           x86_64_linux: "c16dc87215856022b1c5e731b91d4404b961cd78bc1269ef8c7fa3698c369253"
-
     app_image "rustdesk-#{version.csv.first}-#{arch}.AppImage",
               target: "RustDeskNightly.AppImage"
   end
@@ -40,8 +34,8 @@ cask "rustdesk@nightly" do
   homepage "https://rustdesk.com/"
 
   livecheck do
-    url :url
-    regex(/^rustdesk[._-]v?(\d+(?:\.\d+)+)[._-]#{arch}#{url_end}$/i)
+    url "https://github.com/rustdesk/rustdesk/releases"
+    regex(/^rustdesk[._-]v?(\d+(?:\.\d+)+)[._-]aarch64.dmg$/i)
     strategy :github_releases do |json, regex|
       json.map do |release|
         next if release["tag_name"] != "nightly"
