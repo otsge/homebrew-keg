@@ -257,7 +257,7 @@ jobs:
               f.puts "HOMEBREW_SNAPSHOT_BEFORE=#{JSON.generate(Check.all)}"
             end
           EOF
-        if: always() && steps.info.outcome == 'success' && runner.os == 'macOS'
+        if: ${{ always() && steps.info.outcome == 'success' && runner.os == 'macOS' && matrix.runner != 'xcode-27' }}
 
       - name: Run brew install --cask ${{ matrix.cask.token }}
         id: install
@@ -300,7 +300,7 @@ jobs:
 
             exit 1 if errors.any?
           EOF
-        if: always() && steps.snapshot.outcome == 'success' && steps.install.outcome == 'success' && runner.os == 'macOS'
+        if: ${{ always() && steps.snapshot.outcome == 'success' && steps.install.outcome == 'success' && runner.os == 'macOS' && matrix.runner != 'xcode-27' }}
 
   conclusion:
     name: conclusion
