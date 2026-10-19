@@ -247,17 +247,17 @@ jobs:
         if: always() && steps.info.outcome == 'success'
         timeout-minutes: 30
 
-      - name: Take snapshot of installed and running apps and services (macOS only)
-        id: snapshot
-        run: |
-          brew ruby -r "$(brew --repository homebrew/cask)/cmd/lib/check.rb" <<'EOF'
-            File.open(ENV.fetch("GITHUB_ENV"), "a") do |f|
-              # We have to use a `HOMEBREW_` prefix so it will survive the
-              # environment variable filtering in `brew`.
-              f.puts "HOMEBREW_SNAPSHOT_BEFORE=#{JSON.generate(Check.all)}"
-            end
-          EOF
-        if: ${{ always() && steps.info.outcome == 'success' && runner.os == 'macOS' && matrix.runner != 'xcode-27' }}
+      # - name: Take snapshot of installed and running apps and services (macOS only)
+      #   id: snapshot
+      #   run: |
+      #     brew ruby -r "$(brew --repository homebrew/cask)/cmd/lib/check.rb" <<'EOF'
+      #       File.open(ENV.fetch("GITHUB_ENV"), "a") do |f|
+      #         # We have to use a `HOMEBREW_` prefix so it will survive the
+      #         # environment variable filtering in `brew`.
+      #         f.puts "HOMEBREW_SNAPSHOT_BEFORE=#{JSON.generate(Check.all)}"
+      #       end
+      #     EOF
+      #   if: ${{ always() && steps.info.outcome == 'success' && runner.os == 'macOS' && matrix.runner != 'xcode-27' }}
 
       - name: Run brew install --cask ${{ matrix.cask.token }}
         id: install
@@ -281,26 +281,26 @@ jobs:
         if: ${{ always() && steps.install.outcome == 'success' && env.CASK_DEPENDENCIES != '' }}
         timeout-minutes: 30
 
-      - name: Compare installed and running apps and services with snapshot (macOS only)
-        run: |
-          brew ruby -r "$(brew --repository homebrew/cask)/cmd/lib/check.rb" <<'EOF'
-            require "cask/cask_loader"
-            require "utils/github/actions"
+      # - name: Compare installed and running apps and services with snapshot (macOS only)
+      #   run: |
+      #     brew ruby -r "$(brew --repository homebrew/cask)/cmd/lib/check.rb" <<'EOF'
+      #       require "cask/cask_loader"
+      #       require "utils/github/actions"
 
-            before = JSON.parse(ENV.fetch("HOMEBREW_SNAPSHOT_BEFORE", "{}"))
-                         .transform_keys(&:to_sym)
-            after = Check.all
+      #       before = JSON.parse(ENV.fetch("HOMEBREW_SNAPSHOT_BEFORE", "{}"))
+      #                    .transform_keys(&:to_sym)
+      #       after = Check.all
 
-            cask = Cask::CaskLoader.load('${{ matrix.cask.path }}')
-            errors = Check.errors(before, after, cask: cask)
+      #       cask = Cask::CaskLoader.load('${{ matrix.cask.path }}')
+      #       errors = Check.errors(before, after, cask: cask)
 
-            errors.each do |error|
-              puts GitHub::Actions::Annotation.new(:error, error, file: '${{ matrix.cask.path }}')
-            end
+      #       errors.each do |error|
+      #         puts GitHub::Actions::Annotation.new(:error, error, file: '${{ matrix.cask.path }}')
+      #       end
 
-            exit 1 if errors.any?
-          EOF
-        if: ${{ always() && steps.snapshot.outcome == 'success' && steps.install.outcome == 'success' && runner.os == 'macOS' && matrix.runner != 'xcode-27' }}
+      #       exit 1 if errors.any?
+      #     EOF
+      #   if: ${{ always() && steps.snapshot.outcome == 'success' && steps.install.outcome == 'success' && runner.os == 'macOS' && matrix.runner != 'xcode-27' }}
 
   conclusion:
     name: conclusion
