@@ -1,16 +1,15 @@
 cask "deltasnap" do
   version "1.0.2"
-  sha256 "1149e91d9fd14e8e23c7d5342976e6ea6b2be9f1f2fda5a9e1746fb9551fa8b8"
+  sha256 :no_check
 
-  url "https://scaleninja.com/download/deltasnap/releases/DeltaSnap-#{version}.zip"
+  url "https://scaleninja.com/download/deltasnap/DeltaSnap.dmg"
   name "DeltaSnap"
   desc "Manage APFS snapshots"
   homepage "https://scaleninja.com/deltasnap/"
 
   livecheck do
-    url :homepage
-    regex(%r{href=.*?/DeltaSnap-(\d+(?:\.\d+)*)\.zip}i)
-    strategy :page_match
+    url :url
+    strategy :extract_plist
   end
 
   depends_on macos: :sequoia

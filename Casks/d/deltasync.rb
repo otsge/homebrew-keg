@@ -5,7 +5,7 @@ cask "deltasync" do
   url "https://scaleninja.com/download/DeltaSync.dmg"
   name "DeltaSync"
   desc "Simple file and folder syncing tool using rsync"
-  homepage "https://scaleninja.com/deltasnap/#deltasync"
+  homepage "https://scaleninja.com/deltasync"
 
   livecheck do
     url :url
