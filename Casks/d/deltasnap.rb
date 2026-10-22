@@ -1,5 +1,5 @@
 cask "deltasnap" do
-  version "1.0.2"
+  version "1.0.2,53"
   sha256 :no_check
 
   url "https://scaleninja.com/download/deltasnap/DeltaSnap.dmg"
