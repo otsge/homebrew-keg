@@ -27,5 +27,5 @@ cask "rar" do
         args: ["-cr", "{{caskroom_path}}"]
   end
 
-  # No zap stanza required
+  zap :not_required
 end
