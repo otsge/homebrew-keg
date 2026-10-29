@@ -1,6 +1,6 @@
 cask "mediadownloader" do
-  version "5.6.6"
-  sha256 "48a6fa051d1f6aa43d194cf88c188d6a8c70c8305341bfa0e4c6279718989633"
+  version "5.6.7"
+  sha256 "02cc4f21a6f435d03b11397f5e38c2302d8c137178d3e3fde31b90692df5baa6"
 
   url "https://github.com/mhogomchungu/media-downloader/releases/download/#{version}/MediaDownloaderQt6-arm64-#{version}.dmg"
   name "Media Downloader"
