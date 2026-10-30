@@ -2,11 +2,11 @@ cask "rustdesk@nightly" do
   arch arm: "aarch64", intel: "x86_64"
   url_end = on_system_conditional macos: ".dmg", linux: ".AppImage"
 
-  version "1.5.1,1793235858000"
-  sha256 arm:          "b52dd97e47385bc01089237a90b57f4d02766972482aafaccfb39108b5a2c8a5",
-         intel:        "34db1f89b2a5661ecc40d8585f6b2171a4136b3c32c0dbca3bc180e924246126",
-         arm64_linux:  "a3bd035cdf0e14f64a1484d6307fa74f46b50cb0e071dbb5bc2a5ea995482fdc",
-         x86_64_linux: "a0aef69d1a44fc346a96424c854aaf7fdf8cc0b11fd6a2100a6058eb2fd9165b"
+  version "1.5.1,1793321809000"
+  sha256 arm:          "ca1d41e9b89f2bb56a234a08247ae3849b35fcfeb43be9db3c9c34b89576fd1b",
+         intel:        "ec5437db8303fe16bd284a5a0ff6bcd0c906a205153a09c88b4022d257fb1ad7",
+         arm64_linux:  "3825de4976c40c2b87cde1722e6e5b000278fb8a1282da7f3a16a76350ebb4ce",
+         x86_64_linux: "7fd329303a4e299a64ecfcea49544813b89b96fe71ba941b472923e3ad0f0adf"
 
   on_macos do
     depends_on macos: :monterey
