@@ -1,6 +1,6 @@
 cask "stash-app" do
-  version "0.31.1"
-  sha256 "f132d50b2b76d77ab066d513685bde16760d15ab1e98aae5a885a28a451b80e9"
+  version "0.32.0"
+  sha256 "15dcd4d7af4c36f49da39732371e2af4d8fa00602e85ab259c4540da5cdf55b2"
 
   url "https://github.com/stashapp/stash/releases/download/v#{version}/Stash.app.zip"
   name "Stash"
@@ -8,7 +8,7 @@ cask "stash-app" do
   homepage "https://stashapp.cc/"
 
   conflicts_with cask: "stash-app@dev"
-  depends_on :macos
+  depends_on macos: :monterey
 
   app "Stash.app"
 
