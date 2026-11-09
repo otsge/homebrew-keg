@@ -47,7 +47,7 @@ jobs:
         id: matrix
         run: |
           export HOMEBREW_NO_INSTALL_FROM_API=1
-          brew untap --force homebrew/cask
+          # brew untap --force homebrew/cask
           casks="$(find "$(brew --repo "${TAP}")/Casks" -type f | shuf -n "${TEST_COUNT}" | xargs -I{} basename {} .rb)"
           # shellcheck disable=SC2086
           json="$(
