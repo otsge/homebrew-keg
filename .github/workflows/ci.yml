@@ -120,8 +120,14 @@ jobs:
           echo 'HOMEBREW_VERBOSE=1' >> "${GITHUB_ENV}"
         if: runner.debug
 
+      - name: Check out Pull Request
+        uses: actions/checkout@main
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
       - name: Clean up CI machine
-        # if: runner.os == 'macOS'
+        if: runner.os == 'macOS' && !matrix.stable
         run: brew test-bot --cleanup --only-cleanup-before
 
       - name: Cache Homebrew Gems
@@ -133,18 +139,12 @@ jobs:
           restore-keys: ${{ matrix.runner }}-rubygems-
 
       - name: Cache style cache
-        if: runner.os == 'macOS'
+        if: runner.os == 'macOS' && !matrix.stable
         uses: actions/cache@main
         with:
           path: ~/Library/Caches/Homebrew/style
-          key: macos-style-cache-${{ github.sha }}
-          restore-keys: macos-style-cache-
-
-      - name: Check out Pull Request
-        uses: actions/checkout@main
-        with:
-          fetch-depth: 0
-          persist-credentials: false
+          key: macos-style-cache-${{ matrix.stable && 'stable-' || 'main-' }}${{ github.sha }}
+          restore-keys: macos-style-cache-${{ matrix.stable && 'stable-' || 'main-' }}
 
       - name: Run brew config
         run: brew config
@@ -153,7 +153,7 @@ jobs:
         id: tap-syntax
         if: always() && !matrix.cask
         run: |
-          [[ -d $(brew --repository homebrew/core) ]] && brew untap --force homebrew/core
+          [[ -d $(brew --repository homebrew/core) ]] && rm -rf "$(brew --repository homebrew/core)"
           brew test-bot --tap '${{ matrix.tap }}' --only-tap-syntax
 
       - name: Run brew fetch --cask ${{ matrix.cask.token }}
@@ -190,7 +190,7 @@ jobs:
             LC_ALL=C LANG=C sed -i '' 's/Date.today - 30/Date.today - 0/g' "$(brew --repository)/Library/Homebrew/utils/shared_audits.rb"
             # LC_ALL=C LANG=C sed -i '' 's/return "#{tag} is a GitHub pre-release."/#return "#{tag} is a GitHub pre-release."/g' "$(brew --repository)/Library/Homebrew/utils/shared_audits.rb"
           fi
-          [[ -d $(brew --repository homebrew/core) ]] && brew untap --force homebrew/core
+          [[ -d $(brew --repository homebrew/core) ]] && rm -rf "$(brew --repository homebrew/core)"
           brew audit --cask ${{ join(matrix.audit_args, ' ') }}${{ (matrix.cask && ' $GITHUB_REPOSITORY/') || ' --tap ' }}${{ matrix.cask.token || matrix.tap }}
         timeout-minutes: 30
         if: >
@@ -208,7 +208,8 @@ jobs:
         run: |
           tap_cask_path="$(brew --repository "$TAP")/${CASK_PATH#./}"
           echo "TAP_CASK_PATH=$tap_cask_path" >> "$GITHUB_ENV"
-          brew cask-ci info "$tap_cask_path"
+          # brew cask-ci info "$tap_cask_path"
+          brew cask-ci info '${{ matrix.tap }}/${{ matrix.cask.token }}'
         if: always() && steps.fetch.outcome == 'success' && matrix.cask
 
       - name: Uninstall conflicting formulae
@@ -267,7 +268,8 @@ jobs:
         timeout-minutes: 30
 
       - name: Compare installed and running apps and services with snapshot (macOS only)
-        run: brew cask-ci check "$TAP_CASK_PATH"
+        # run: brew cask-ci check "$TAP_CASK_PATH"
+        run: brew cask-ci check '${{ matrix.tap }}/${{ matrix.cask.token }}'
         if: always() && steps.snapshot.outcome == 'success' && steps.install.outcome == 'success' && runner.os == 'macOS'
 
   conclusion:
