@@ -1,8 +1,7 @@
 name: Push Pull Request Commits
 
 on:
-  # pull_request_target:
-  pull_request:
+  pull_request_target:
     types:
       - labeled
 
@@ -18,7 +17,8 @@ jobs:
   push-pr:
     name: Push PR to main
     if: contains(github.event.pull_request.labels.*.name, 'pr-pull')
-    runs-on: macos-26
+    # runs-on: macos-26
+    runs-on: ubuntu-latest
     permissions:
       actions: read
       checks: read

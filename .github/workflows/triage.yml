@@ -1,7 +1,6 @@
 name: Triage tasks
 
-#on: pull_request_target
-on: pull_request
+on: pull_request_target
 
 env:
   GH_REPO: ${{ github.repository }}
@@ -156,3 +155,16 @@ jobs:
             > [!CAUTION]
             > Failed to change base branch to `main`. Please edit your pull request manually to target the `main` branch instead of the `master` branch.
         run: gh pr comment "${PR}" --body "${BODY}" --repo "${GITHUB_REPOSITORY}"
+
+  label-pr:
+    needs: triage
+    runs-on: ubuntu-slim
+    if: always()
+    steps:
+      - name: Label the Pull Request
+        id: label-the-pr
+        if: ${{ github.event_name == 'pull_request' }}
+        env:
+          GH_TOKEN: ${{ secrets.AUTOBUMP_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: gh pr edit "$PR_NUMBER" --add-label "pr-pull" --repo "$GITHUB_REPOSITORY"
